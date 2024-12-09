@@ -121,7 +121,11 @@ const tweets = [
 // } , []);
 
 // const getUsersWithGender = (array, gender) =>
-//   array.reduce((userName, user) =>  user.gender === gender ? [...userName, user.name] : userName, []);
+//   array.reduce(
+//     (userName, user) =>
+//       user.gender === gender ? [...userName, user.name] : userName,
+//     []
+//   );
 
 // console.log(getUsersWithGender(tweets, "male"));
 
@@ -319,6 +323,20 @@ book.addContact(cont1);
 // в усіх користувачів разом (не для кожного окремо)
 // має бути відповідь: {js: 5, nodejs: 5, html: 2, css: 2, react: 4}
 
+// console.table(tweets);
+const getStatisticsOfTags = (array) => {
+  const res = {};
+  array
+    .flatMap((el) => el.tags)
+    .forEach((element, _, arr) => {
+      if (!Object.keys(res).includes(element)) {
+        res[element] = arr.filter((el) => el === element).length;
+      }
+    });
+  return res;
+};
+// console.log("getStatisticsOfTags:", getStatisticsOfTags(tweets));
+
 // 7. Є масив чисел, наприклад: arr = [1,2,3,4,5]
 // Напишіть функцію getSums(arr), яка повертає масив його часткових сум.
 // Іншими словами, виклик getSums(arr) має повертати новий масив з такої ж
@@ -329,22 +347,40 @@ book.addContact(cont1);
 // Функція не має змінювати вхідний масив
 // Використовуйте метод reduce
 
-// 8. Reverse. Напишіть функцію, яка розгортає масив у зворотному порядку.
+const getSums = (arr) =>
+  arr.reduce((acc, el, idx) => {
+    idx === 0 ? acc.push(el) : acc.push(acc[idx - 1] + el);
+    return acc;
+  }, []);
+
+// console.log(getSums([1, 2, 3, 4, 5]));
+
+// 8. Reverse. Напишіть функцію, яка розгортає масив у зворотньому порядку.
 // Будь ласка, не використовуйте array.reverse(), щоб зробити завдання цікавішим.
 
-// const data = [10, 20, 30, 40, 50, 60];
-// const alphData = ["a", "b", "c", "d", "e"];
+const data = [10, 20, 30, 40, 50, 60];
+const alphData = ["a", "b", "c", "d", "e"];
+
+const reverseFn = (arr) => arr.map((_, idx, arr) => arr[arr.length - 1 - idx]);
+
+// console.log(reverseFn(data));
+// console.log(reverseFn(alphData));
 
 // 10. Знайти найдорожчий продукт у категорії "meat"
 // Напиши для цього функцію getMostExpensiveMeatProduct(products)
 
-// const products = [
-//   { name: 'Apple', category: 'fruits', price: 1.2, stock: 50 },
-//   { name: 'Banana', category: 'fruits', price: 0.8, stock: 100 },
-//   { name: 'Carrot', category: 'vegetables', price: 0.5, stock: 200 },
-//   { name: 'Broccoli', category: 'vegetables', price: 1.0, stock: 150 },
-//   { name: 'Milk', category: 'dairy', price: 1.5, stock: 20 },
-//   { name: 'Cheese', category: 'dairy', price: 2.5, stock: 5 },
-//   { name: 'Chicken', category: 'meat', price: 5.0, stock: 30 },
-//   { name: 'Beef', category: 'meat', price: 7.0, stock: 25 }
-// ];
+const products = [
+  { name: "Apple", category: "fruits", price: 1.2, stock: 50 },
+  { name: "Banana", category: "fruits", price: 0.8, stock: 100 },
+  { name: "Carrot", category: "vegetables", price: 0.5, stock: 200 },
+  { name: "Beef", category: "meat", price: 7.0, stock: 25 },
+  { name: "Broccoli", category: "vegetables", price: 1.0, stock: 150 },
+  { name: "Milk", category: "dairy", price: 1.5, stock: 20 },
+  { name: "Cheese", category: "dairy", price: 2.5, stock: 5 },
+  { name: "Chicken", category: "meat", price: 5.0, stock: 30 }
+];
+
+const getMostExpensiveMeatProduct = (arr) =>
+  arr.reduce((acc, el) => (acc.price < el.price ? el : acc));
+
+// console.log(getMostExpensiveMeatProduct(products));
